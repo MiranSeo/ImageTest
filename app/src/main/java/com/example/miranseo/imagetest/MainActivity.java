@@ -18,11 +18,46 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
         private GridView gridView;
-        public static List<Images> imageList = null;
         public static ImageAdapter imageAdapter;
-        public static String url = null;
+        public String url = null;
+        public static Uri imageUri = null;
 
-        /**
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // Intent를 얻어오고 액션과 MIME 타입을 가져온다.
+        //Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        // Intent의 Action 종류에 따라 비교 후 해당 함수 수행.
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                handleSendImage(intent); // 단일 image 를 처리한다.
+            }
+        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                handleSendMultipleImages(intent); // 여러 image 들을 처리한다.
+            }
+        }
+
+//            DatabaseHandler db = new DatabaseHandler(this);
+
+
+//        GridView gridview = (GridView) findViewById(R.id.gridview);
+//        imageAdapter = new ImageAdapter(this);
+//        gridview.setAdapter(imageAdapter);
+//
+//
+//        gridview.setOnItemClickListener(new OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+//                Toast.makeText(MainActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        imageAdapter.notifyDataSetChanged();
+    }
+
+    /**
          * Called when the activity is first created.
          */
         @Override
@@ -30,74 +65,75 @@ public class MainActivity extends ActionBarActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            // Intent를 얻어오고 액션과 MIME 타입을 가져온다.
-            Intent intent = getIntent();
-            String action = intent.getAction();
-            String type = intent.getType();
-
-            // Intent의 Action 종류에 따라 비교 후 해당 함수 수행.
-            if (Intent.ACTION_SEND.equals(action) && type != null) {
-                if (type.startsWith("image/")) {
-                    handleSendImage(intent); // 단일 image 를 처리한다.
-                }
-            } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
-                if (type.startsWith("image/")) {
-                    handleSendMultipleImages(intent); // 여러 image 들을 처리한다.
-                }
-            }
-
-//            DatabaseHandler db = new DatabaseHandler(this);
-
-
             GridView gridview = (GridView) findViewById(R.id.gridview);
             imageAdapter = new ImageAdapter(this);
             gridview.setAdapter(imageAdapter);
-            imageAdapter.notifyDataSetChanged();
+
 
             gridview.setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     Toast.makeText(MainActivity.this, "" + position, Toast.LENGTH_SHORT).show();
                 }
             });
+            imageAdapter.notifyDataSetChanged();
+
 
         }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Intent를 얻어오고 액션과 MIME 타입을 가져온다.
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        // Intent의 Action 종류에 따라 비교 후 해당 함수 수행.
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                handleSendImage(intent); // 단일 image 를 처리한다.
+            }
+        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                handleSendMultipleImages(intent); // 여러 image 들을 처리한다.
+            }
+        }
+    }
 
     // Intent의 Type이 image일 경우 수행
     void handleSendImage(Intent intent) {
         DatabaseHandler db = new DatabaseHandler(this);
-        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         url = imageUri.toString();
 
         // 보내는 쪽에서 pacelable 로 구현한 객체를 intent에 넣어 전달하면 getParcelableExtra로 받는다
         if (imageUri != null) {
-            //  전달 받은 image 를 사용한다.
-            //byte[] logoImage = getLogoImage(url);
-
             // Inserting Contacts
             Log.d("Insert: ", "Inserting ..");
 
-            db.addImages(new Images(url));
+            db.addImages(url);
 
             Log.i("********************", url);
 
             // Reading all contacts
             Log.d("Reading: ", "Reading all contacts..");
-            //List<Images> imageses = db.getAllImages();
-            imageList = db.getAllImages();
-            for (Images images : imageList) {
-                String log = "Name: " + images.getPhoto();
-                // Writing Contacts to log
-                Log.d("Name: ", log);
-
+            url = db.getAllImages();
+            //db.getAllImages();
+            //getAllImages에 문제가 있음!!
             }
-            imageAdapter.mThumbIds.addAll(imageList);
-            //imageAdapter.mThumbIds.add();
-            imageAdapter.notifyDataSetChanged();
+
+            imageAdapter.mThumbIds.add(url);
+
+            for(int i = 0; i< ImageAdapter.mThumbIds.size(); i++) {
+                Log.d("mThumblds****", "" + imageAdapter.mThumbIds.get(i));
+            }
 
 
-            db.getAllImages();
+
+
+            //db.getAllImages();
         }
-    }
+
 
     void handleSendMultipleImages(Intent intent) {
         ArrayList<Uri> imageUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);

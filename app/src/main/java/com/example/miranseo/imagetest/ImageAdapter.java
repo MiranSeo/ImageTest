@@ -45,15 +45,18 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        imageView.setImageURI(Uri.parse((mThumbIds.get(position).getPhoto())));
-       // imageView.setImageURI(Uri.parse((mThumbIds.get(position))));
+       // imageView.setImageURI(Uri.parse((mThumbIds.get(position).getPhoto())));
+        imageView.setImageURI(Uri.parse((String) mThumbIds.get(position)));
+
 
 
         return imageView;
     }
 
     // references to our images
-    public ArrayList<Images> mThumbIds = new ArrayList<Images>();
-   // public ArrayList<String> mThumbIds = new ArrayList<>();
+   // public ArrayList<Images> mThumbIds = new ArrayList<Images>();
+    public static ArrayList mThumbIds = new ArrayList();
+
+    //public String mThumbIds[] = null;
 
 }

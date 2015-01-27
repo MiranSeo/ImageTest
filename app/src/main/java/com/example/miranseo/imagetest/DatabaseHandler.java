@@ -18,7 +18,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database Name
     private static final String DATABASE_NAME = "contactsManager";
@@ -41,7 +41,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + " " +  "("
 //                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PHOTO + " TEXT" + ')';
         db.execSQL("CREATE TABLE " + TABLE_CONTACTS + " " +  "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + PHOTO + " TEXT" + ");");
+                + PHOTO + " TEXT " + ");");
     }
 
     // Upgrading database
@@ -59,14 +59,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      */
 
     // Adding new contact
-    void addImages(Images images) {
+    void addImages(String url) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(PHOTO, images.getPhoto()); // Contact photo
+        values.put(PHOTO, url); // Contact photo
 
         // Inserting Row
         db.insert(TABLE_CONTACTS, null, values);
+
         db.close(); // Closing database connection
     }
 
@@ -86,35 +87,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Getting All Contacts
-    public List<Images> getAllImages() {
-        List<Images> imagesList = new ArrayList<Images>();
+  //  public List<Images> getAllImages() {
+    public String getAllImages() {
 
+        String photo = null;
+        String photo_url = null;
+        int num = 0;
 
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
+
         Log.i("***Count**", ""+cursor.getCount());
         // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
+        while (cursor.moveToNext()) {
 
-                Images images = new Images();
-                images.setPhoto(cursor.getString(1));
+                num = cursor.getInt(0);
+                photo = cursor.getString(1);
+                //imageAdapter.mThumbIds.add(photo);
 
-                String photo = cursor.getString(1);
-
-            //imageAdapter.mThumbIds.add(images);
-
-                // Adding contact to list
-                imagesList.add(images);
-
-            } while (cursor.moveToNext());
-
+            }
+                photo_url = photo;
 
         // return contact list
-        return imagesList;
+       // imageAdapter.mThumbIds.add(photo);
+        return photo_url;
     }
 
     // Updating single contact
