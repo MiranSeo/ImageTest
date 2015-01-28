@@ -68,6 +68,9 @@ public class MainActivity extends ActionBarActivity {
             GridView gridview = (GridView) findViewById(R.id.gridview);
             imageAdapter = new ImageAdapter(this);
             gridview.setAdapter(imageAdapter);
+            // 1/28 수정부분!!!!!-----------------------앱 처음 실행시켰을때도 DB에 있는 이미지들이 보이게 하려면?-----------
+            // url = db.getAllImages();
+            // imageAdapter.mThumbIds.add(url);
 
 
             gridview.setOnItemClickListener(new OnItemClickListener() {
