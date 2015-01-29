@@ -51,13 +51,13 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        Glide.with(mContext)
-                .fromString()
-                .load(imageList.get(position).getPhoto())
-                        //adapter에 이미 순서대로 내용 들어가있으므로 해당 위치에 해당하는 것들을 불러와야함.
-                .fitCenter()
-                .error(R.drawable.ic_launcher)
-                .into(iv);
+//        Glide.with(mContext)
+//                .fromString()
+//                .load(imageList.get(position).getPhoto())
+//                        //adapter에 이미 순서대로 내용 들어가있으므로 해당 위치에 해당하는 것들을 불러와야함.
+//                .fitCenter()
+//                .error(R.drawable.ic_launcher)
+//                .into(imageView);
         imageView.setImageURI(Uri.parse(imageList.get(position).getPhoto()));
         notifyDataSetChanged();
 
