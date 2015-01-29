@@ -85,6 +85,55 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // return contact
         return images;
     }
+    public ArrayList<Images> getList() {
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        ArrayList<Images> imageList = new ArrayList<Images>();
+
+        while(cursor.moveToNext()) {
+            int no = cursor.getInt(0);
+            String photo = cursor.getString(1);
+
+            Images item = new Images(photo);
+            imageList.add(item);
+        }
+
+        return imageList;
+    }
+
+    public List<Images> getAllImagesList() {
+        List<Images> imagesList = new ArrayList<Images>();
+
+
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        Log.i("***Count**", ""+cursor.getCount());
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+
+            Images images = new Images();
+            images.setPhoto(cursor.getString(1));
+
+            String photo = cursor.getString(1);
+
+            //imageAdapter.mThumbIds.add(images);
+
+            // Adding contact to list
+            imagesList.add(images);
+
+        } while (cursor.moveToNext());
+
+
+        // return contact list
+        return imagesList;
+    }
 
     // Getting All Contacts
   //  public List<Images> getAllImages() {

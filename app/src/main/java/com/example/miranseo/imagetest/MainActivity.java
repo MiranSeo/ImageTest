@@ -19,8 +19,9 @@ import android.widget.Toast;
 public class MainActivity extends ActionBarActivity {
         private GridView gridView;
         public static ImageAdapter imageAdapter;
-        public String url = null;
+        public static String url = null;
         public static Uri imageUri = null;
+        public static ArrayList<Images> imageList = null;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -35,26 +36,7 @@ public class MainActivity extends ActionBarActivity {
             if (type.startsWith("image/")) {
                 handleSendImage(intent); // 단일 image 를 처리한다.
             }
-        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
-            if (type.startsWith("image/")) {
-                handleSendMultipleImages(intent); // 여러 image 들을 처리한다.
-            }
         }
-
-//            DatabaseHandler db = new DatabaseHandler(this);
-
-
-//        GridView gridview = (GridView) findViewById(R.id.gridview);
-//        imageAdapter = new ImageAdapter(this);
-//        gridview.setAdapter(imageAdapter);
-//
-//
-//        gridview.setOnItemClickListener(new OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//                Toast.makeText(MainActivity.this, "" + position, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        imageAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -64,11 +46,15 @@ public class MainActivity extends ActionBarActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
-
+            DatabaseHandler db = new DatabaseHandler(this);
             GridView gridview = (GridView) findViewById(R.id.gridview);
-            imageAdapter = new ImageAdapter(this);
+            imageList = db.getList();
+            imageAdapter = new ImageAdapter(this, imageList);
             gridview.setAdapter(imageAdapter);
 
+            //url = db.getAllImages();
+            //if (url != null)
+            // imageAdapter.mThumbIds.add(url);
 
             gridview.setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -93,10 +79,6 @@ public class MainActivity extends ActionBarActivity {
             if (type.startsWith("image/")) {
                 handleSendImage(intent); // 단일 image 를 처리한다.
             }
-        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
-            if (type.startsWith("image/")) {
-                handleSendMultipleImages(intent); // 여러 image 들을 처리한다.
-            }
         }
     }
 
@@ -109,38 +91,29 @@ public class MainActivity extends ActionBarActivity {
         // 보내는 쪽에서 pacelable 로 구현한 객체를 intent에 넣어 전달하면 getParcelableExtra로 받는다
         if (imageUri != null) {
             // Inserting Contacts
+
             Log.d("Insert: ", "Inserting ..");
-
             db.addImages(url);
-
             Log.i("********************", url);
 
             // Reading all contacts
             Log.d("Reading: ", "Reading all contacts..");
-            url = db.getAllImages();
-            //db.getAllImages();
-            //getAllImages에 문제가 있음!!
+//            //url = db.getAllImages();
+            imageList = db.getList();
+           imageAdapter = new ImageAdapter(this, imageList);
+//            //imageAdapter.mThumbIds.add(url);
+            imageAdapter.notifyDataSetChanged();
+
+            }
+            //if (url == null)
+            //imageAdapter.mThumbIds.add(url);
+            //imageAdapter.notifyDataSetChanged();
+
+            for(int i = 0; i< imageList.size(); i++) {
+                Log.d("imageList uri****", "" + i + imageList.get(i).getPhoto());
             }
 
-            imageAdapter.mThumbIds.add(url);
-
-            for(int i = 0; i< ImageAdapter.mThumbIds.size(); i++) {
-                Log.d("mThumblds****", "" + imageAdapter.mThumbIds.get(i));
-            }
-
-
-
-
-            //db.getAllImages();
         }
-
-
-    void handleSendMultipleImages(Intent intent) {
-        ArrayList<Uri> imageUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-        if (imageUris != null) {
-            // 전달받은 여러개의 image 를 사용한다.
-        }
-    }
 
 
     @Override
@@ -161,7 +134,4 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
  }
