@@ -1,3 +1,26 @@
+//package com.example.miranseo.imagetest;
+//
+//import java.util.ArrayList;
+//
+///**
+// * Created by Miran Seo on 15. 1. 21.
+// */
+//
+//public class Images {
+////    public ArrayList<Images> images;
+////
+////
+////    // constructor
+////    public static class Image {
+////        public String photo;
+////    }
+//
+//
+//public static ArrayList <String> mThumbIds = new ArrayList<String>();
+//
+//
+//}
+
 package com.example.miranseo.imagetest;
 
 /**

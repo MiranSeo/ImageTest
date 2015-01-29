@@ -31,7 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String PHOTO = "PHOTO";
     public static ImageAdapter imageAdapter;
 
-    public DatabaseHandler(Context context) {
+    public DatabaseHandler(MainActivity context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
