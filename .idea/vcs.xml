@@ -2,7 +2,10 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+<<<<<<< HEAD
     <mapping directory="$PROJECT_DIR$/app/src/main/java/com/example/miranseo/imagetest" vcs="Git" />
+=======
+>>>>>>> origin/db_save
   </component>
 </project>
 
