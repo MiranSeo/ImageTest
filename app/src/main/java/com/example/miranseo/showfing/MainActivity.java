@@ -39,13 +39,11 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         DatabaseHandler db = new DatabaseHandler(this);
         GridView gridview = (GridView) findViewById(R.id.gridview);

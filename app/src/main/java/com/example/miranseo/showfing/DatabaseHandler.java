@@ -70,7 +70,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-<<<<<<< HEAD:app/src/main/java/com/example/miranseo/showfing/DatabaseHandler.java
 //    // Getting single contact
 //    Images getImages(int id) {
 //        SQLiteDatabase db = this.getReadableDatabase();
@@ -87,82 +86,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //    }
     public ArrayList<Images> getList() {
         String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
-=======
-    // Getting single contact
-    Images getImages(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_ID,
-                        PHOTO }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        Images images = new Images(cursor.getString(1));
-        // return contact
-        return images;
-    }
-    public ArrayList<Images> getList() {
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        ArrayList<Images> imageList = new ArrayList<Images>();
-
-        while(cursor.moveToNext()) {
-            int no = cursor.getInt(0);
-            String photo = cursor.getString(1);
-
-            Images item = new Images(photo);
-            imageList.add(item);
-        }
-
-        return imageList;
-    }
-
-    public List<Images> getAllImagesList() {
-        List<Images> imagesList = new ArrayList<Images>();
-
-
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        Log.i("***Count**", ""+cursor.getCount());
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-
-            Images images = new Images();
-            images.setPhoto(cursor.getString(1));
-
-            String photo = cursor.getString(1);
-
-            //imageAdapter.mThumbIds.add(images);
-
-            // Adding contact to list
-            imagesList.add(images);
-
-        } while (cursor.moveToNext());
-
-
-        // return contact list
-        return imagesList;
-    }
-
-    // Getting All Contacts
-  //  public List<Images> getAllImages() {
-    public String getAllImages() {
-
-        String photo = null;
-        String photo_url = null;
-        int num = 0;
-
-        // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;
->>>>>>> origin/db_save:app/src/main/java/com/example/miranseo/imagetest/DatabaseHandler.java
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
