@@ -21,7 +21,7 @@
 //
 //}
 
-package com.example.miranseo.imagetest;
+package com.example.miranseo.showfing;
 
 /**
  * Created by Miran Seo on 15. 1. 21.

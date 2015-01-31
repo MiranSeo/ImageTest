@@ -1,4 +1,4 @@
-package com.example.miranseo.imagetest;
+package com.example.miranseo.showfing;
 
 import android.app.Activity;
 import android.app.AlarmManager;

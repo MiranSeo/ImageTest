@@ -1,4 +1,4 @@
-package com.example.miranseo.imagetest;
+package com.example.miranseo.showfing;
 
 /**
  * Created by Miran Seo on 15. 1. 21.
@@ -8,7 +8,6 @@ package com.example.miranseo.imagetest;
         import java.util.List;
 
         import android.content.ContentValues;
-        import android.content.Context;
         import android.database.Cursor;
         import android.database.sqlite.SQLiteDatabase;
         import android.database.sqlite.SQLiteOpenHelper;
@@ -71,20 +70,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    // Getting single contact
-    Images getImages(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_ID,
-                        PHOTO }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        Images images = new Images(cursor.getString(1));
-        // return contact
-        return images;
-    }
+//    // Getting single contact
+//    Images getImages(int id) {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//
+//        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_ID,
+//                        PHOTO }, KEY_ID + "=?",
+//                new String[] { String.valueOf(id) }, null, null, null, null);
+//        if (cursor != null)
+//            cursor.moveToFirst();
+//
+//        Images images = new Images(cursor.getString(1));
+//        // return contact
+//        return images;
+//    }
     public ArrayList<Images> getList() {
         String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
 
@@ -104,67 +103,67 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return imageList;
     }
 
-    public List<Images> getAllImagesList() {
-        List<Images> imagesList = new ArrayList<Images>();
+//    public List<Images> getAllImagesList() {
+//        List<Images> imagesList = new ArrayList<Images>();
+//
+//
+//        // Select All Query
+//        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+//
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor cursor = db.rawQuery(selectQuery, null);
+//
+//        Log.i("***Count**", ""+cursor.getCount());
+//        // looping through all rows and adding to list
+//        if (cursor.moveToFirst()) {
+//
+//            Images images = new Images();
+//            images.setPhoto(cursor.getString(1));
+//
+//            String photo = cursor.getString(1);
+//
+//            //imageAdapter.mThumbIds.add(images);
+//
+//            // Adding contact to list
+//            imagesList.add(images);
+//
+//        } while (cursor.moveToNext());
+//
+//
+//        // return contact list
+//        return imagesList;
+//    }
 
-
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        Log.i("***Count**", ""+cursor.getCount());
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-
-            Images images = new Images();
-            images.setPhoto(cursor.getString(1));
-
-            String photo = cursor.getString(1);
-
-            //imageAdapter.mThumbIds.add(images);
-
-            // Adding contact to list
-            imagesList.add(images);
-
-        } while (cursor.moveToNext());
-
-
-        // return contact list
-        return imagesList;
-    }
-
-    // Getting All Contacts
-  //  public List<Images> getAllImages() {
-    public String getAllImages() {
-
-        String photo = null;
-        String photo_url = null;
-        int num = 0;
-
-        // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-
-        Log.i("***Count**", ""+cursor.getCount());
-        // looping through all rows and adding to list
-        while (cursor.moveToNext()) {
-
-                num = cursor.getInt(0);
-                photo = cursor.getString(1);
-                //imageAdapter.mThumbIds.add(photo);
-
-            }
-                photo_url = photo;
-
-        // return contact list
-       // imageAdapter.mThumbIds.add(photo);
-        return photo_url;
-    }
+//    // Getting All Contacts
+//  //  public List<Images> getAllImages() {
+//    public String getAllImages() {
+//
+//        String photo = null;
+//        String photo_url = null;
+//        int num = 0;
+//
+//        // Select All Query
+//        String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;
+//
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor cursor = db.rawQuery(selectQuery, null);
+//
+//
+//        Log.i("***Count**", ""+cursor.getCount());
+//        // looping through all rows and adding to list
+//        while (cursor.moveToNext()) {
+//
+//                num = cursor.getInt(0);
+//                photo = cursor.getString(1);
+//                //imageAdapter.mThumbIds.add(photo);
+//
+//            }
+//                photo_url = photo;
+//
+//        // return contact list
+//       // imageAdapter.mThumbIds.add(photo);
+//        return photo_url;
+//    }
 
     // Updating single contact
 //    public int updateImages(Images images) {

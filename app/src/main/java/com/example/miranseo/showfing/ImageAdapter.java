@@ -10,7 +10,7 @@
 //import android.widget.BaseAdapter;
 //import android.widget.GridView;
 //import android.widget.ImageView;
-//import com.example.miranseo.imagetest.Images;
+//import Images;
 //import com.bumptech.glide.Glide;
 //
 //import java.util.ArrayList;
@@ -98,11 +98,9 @@
 //
 //}
 
-package com.example.miranseo.imagetest;
+package com.example.miranseo.showfing;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -113,9 +111,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 /**
  * Created by Miran Seo on 15. 1. 21.
@@ -123,7 +118,6 @@ import static java.security.AccessController.getContext;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<Images> imageList;
-    BaseAdapter base;
 
     public ImageAdapter(Context c, ArrayList<Images> imgList) {
         mContext = c;
