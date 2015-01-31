@@ -7,6 +7,7 @@ package com.example.miranseo.showfing;
         import java.util.ArrayList;
         import java.util.List;
 
+        import android.app.Activity;
         import android.content.ContentValues;
         import android.database.Cursor;
         import android.database.sqlite.SQLiteDatabase;
@@ -30,7 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String PHOTO = "PHOTO";
     public static ImageAdapter imageAdapter;
 
-    public DatabaseHandler(MainActivity context) {
+    public DatabaseHandler(Activity context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

@@ -1,22 +1,24 @@
-
 package com.example.miranseo.showfing;
+
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+
 import java.util.ArrayList;
-import android.util.Log;
 
 
-public class MainActivity extends Activity {
+public class FingoActivity extends Activity {
     private GridView gridView;
     public static ImageAdapter imageAdapter;
     public static String url = null;
@@ -43,8 +45,10 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        setContentView(R.layout.fingo_layout);
 
         DatabaseHandler db = new DatabaseHandler(this);
         GridView gridview = (GridView) findViewById(R.id.gridview);
@@ -54,15 +58,14 @@ public class MainActivity extends Activity {
         gridview.setAdapter(imageAdapter);
         imageAdapter.notifyDataSetChanged();
 
-        gridview.setOnItemClickListener(new OnItemClickListener() {
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> paretnt, View v, int position, long id) {
 
-                Intent intent = new Intent(MainActivity.this, FloatingWindowService.class);
+                Intent intent = new Intent(FingoActivity.this, FloatingWindowService.class);
                 int pos = position;
                 intent.putExtra("position", pos);
                 startService(intent);
                 finish();
-
             }
         });
     }
@@ -70,13 +73,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
-
         // Intent를 얻어오고 액션과 MIME 타입을 가져온다.
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
-
 
         // Intent의 Action 종류에 따라 비교 후 해당 함수 수행.
         if (Intent.ACTION_SEND.equals(action) && type != null) {
@@ -84,16 +84,7 @@ public class MainActivity extends Activity {
                 handleSendImage(intent); // 단일 image 를 처리한다.
 
             }
-
-
         }
-        DatabaseHandler db = new DatabaseHandler(this);
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-
-        imageList = db.getList();
-        ImageUtil.getInstance().setImageList(imageList);
-        imageAdapter = new ImageAdapter(this, imageList);
-        gridview.setAdapter(imageAdapter);
         imageAdapter.notifyDataSetChanged();
     }
 
@@ -116,13 +107,12 @@ public class MainActivity extends Activity {
 //            //url = db.getAllImages();
 
             imageList = db.getList();
-            ImageUtil.getInstance().setImageList(imageList);
 
 
         }
 
         imageAdapter.notifyDataSetChanged();
-;
+        ;
 
         for(int i = 0; i< imageList.size(); i++) {
             Log.d("imageList uri****", "" + i + imageList.get(i).getPhoto());

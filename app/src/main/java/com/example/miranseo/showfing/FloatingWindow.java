@@ -89,7 +89,7 @@ public class FloatingWindow implements View.OnTouchListener {
 
 
       mPopupView = new ImageView(context);                                                                //뷰 생성
-      mPopupView.setImageURI(Uri.parse(MainActivity.imageList.get(pos).getPhoto()));    //이미지 설정
+      mPopupView.setImageURI(Uri.parse(ImageUtil.getInstance().getImages().get(pos).getPhoto()));    //이미지 설정
       mPopupView.setOnTouchListener(this);
 
       imgView = mPopupView;
